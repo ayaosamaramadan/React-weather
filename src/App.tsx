@@ -1,6 +1,8 @@
-import { useState, useEffect,
+import {
+  useState,
+  useEffect,
   //  useRef
-   } from "react";
+} from "react";
 import { fetchWeather } from "./api/weatherapi";
 import "./App.css";
 import { weatherprops } from "./types/weathertypes";
@@ -27,10 +29,8 @@ function App() {
         } catch (error) {
           console.error("Error fetching weather data:", error);
           setError("Please enter a valid city name");
-            setWeather(null);
+          setWeather(null);
         } finally {
-
-
           setLoading(false);
         }
       }
@@ -40,19 +40,18 @@ function App() {
   }, [city]);
 
   const handleSearch = () => {
-    if (inputValue.trim() === "") {
-      setError("Please enter a valid city name.");
-      return;
-    }
     setCity(inputValue);
-
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCity = e.target.value;
     setInputValue(newCity);
+  };
 
-  
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -62,9 +61,10 @@ function App() {
           type="text"
           value={inputValue}
           onChange={handleInputChange}
+         onKeyPress={handleKeyPress}
           placeholder="Enter city"
         />
-        <button onClick={handleSearch}>Search</button>
+        <button type="submit" onClick={handleSearch}>Search</button>
       </div>
       {loading && (
         <ClipLoader
@@ -74,7 +74,7 @@ function App() {
           data-testid="loader"
         />
       )}
-      {error && <p >{error}</p>}
+      {error && <p>{error}</p>}
       {weather && !loading && (
         <div>
           <h2>Weather in {weather.name}</h2>
