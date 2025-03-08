@@ -1,9 +1,15 @@
-export type weatherprops = {
-    name: string;
-    main: {
-      temp: number | undefined;
-    };
-    weather: {
-      description: string;
-    }[];
+export interface weatherprops {
+  name: string;
+  main: {
+    temp: number;
+  };
+  weather: {
+    main: string;
+    description: string;
+  }[];
+}
+
+export type iconprops = {
+    iconImg: string;
+
   };
