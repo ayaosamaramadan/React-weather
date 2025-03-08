@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const keyy = "05aef76b4355cdab242f0489ab39d93f";
+export const keyy = "05aef76b4355cdab242f0489ab39d93f";
 
 export const fetchWeather = async (city: string) => {
   const url = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${city}&appid=${keyy}`;
@@ -12,3 +12,4 @@ export const fetchWeather = async (city: string) => {
     throw error;
   }
 };
+
