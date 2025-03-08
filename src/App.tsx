@@ -1,28 +1,32 @@
 import  { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchWeather } from "./api/weatherapi";
 import "./App.css";
+import { weatherprops } from "./types/weathertypes";
 
 function App() {
-  const [weather, setWeather] = useState<Weather | null>(null);
+  const [weather, setWeather] = useState<weatherprops | null>(null);
 
-  type Weather = {
-    name: string;
-    main: {
-      temp: number | undefined;
-    };
-    weather: {
-      description: string;
-    }[];
-  };
+  // type Weather = {
+  //   name: string;
+  //   main: {
+  //     temp: number | undefined;
+  //   };
+  //   weather: {
+  //     description: string;
+  //   }[];
+  // };
 
   useEffect(() => {
-    const keyy = "05aef76b4355cdab242f0489ab39d93f";
-    const url = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=egypt&appid=${keyy}`;
+    const getweather = async () => {
+      try {
+        const data = await fetchWeather();
+        setWeather(data);
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+      }
+    };
 
-    axios
-      .get(url)
-      .then((response) => setWeather(response.data))
-      .catch((error) => console.error("Error fetching weather data:", error));
+    getweather();
   }, []);
 
   return (
