@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchWeather } from "./api/weatherapi";
 import "./App.css";
 import { weatherprops } from "./types/weathertypes";
@@ -7,14 +7,20 @@ function App() {
   const [weather, setWeather] = useState<weatherprops | null>(null);
   const [city, setCity] = useState<string>("");
 
-  const handleSearch = async () => {
-    try {
-      const data = await fetchWeather(city);
-      setWeather(data);
-    } catch (error) {
-      console.error("Error fetching weather data:", error);
-    }
-  };
+  useEffect(() => {
+    const getWeather = async () => {
+      if (city) {
+        try {
+          const data = await fetchWeather(city);
+          setWeather(data);
+        } catch (error) {
+          console.error("Error fetching weather data:", error);
+        }
+      }
+    };
+
+    getWeather();
+  }, [city]);
 
   return (
     <>
@@ -25,7 +31,7 @@ function App() {
           onChange={(e) => setCity(e.target.value)}
           placeholder="Enter city"
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={() => setCity(city)}>Search</button>
       </div>
       {weather && (
         <div>
