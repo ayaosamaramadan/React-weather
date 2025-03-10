@@ -1,54 +1,29 @@
 import { useState, useEffect } from "react";
-import { fetchWeather } from "./api/weatherapi";
-import { fetchForecast } from "./api/forestapi";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "./store/store";
+import { setCity, fetchWeatherData } from "./reducers/weatherSlice";
 import "./App.css";
-import { weatherprops, ForecastProps } from "./types/weathertypes";
 import { icons } from "./api/icons";
 import { ClipLoader } from "react-spinners";
 
 type WeatherCondition = keyof typeof icons;
 
 function App() {
-  const [weather, setWeather] = useState<weatherprops | null>(null);
-  const [forecast, setForecast] = useState<ForecastProps[]>([]);
-  const [city, setCity] = useState<string>("");
+  const dispatch = useDispatch<AppDispatch>();
+  const { weather, forecast, city, loading, error } = useSelector(
+    (state: RootState) => state.weather
+  );
   const [inputValue, setInputValue] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const getWeather = async () => {
-      if (city) {
-        setLoading(true);
-        setError(null);
-        try {
-          const weatherData = await fetchWeather(city);
-          const forecastData = await fetchForecast(city);
-          setWeather(weatherData);
-          setForecast(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            forecastData.list.filter((_: any, index: number) => index % 8 === 0)
-          );
-        } catch (error) {
-          console.error("Error fetching weather data:", error);
-          setError("Please enter a valid city name");
-          setWeather(null);
-          setForecast([]);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    getWeather();
-  }, [city]);
+    if (city) {
+      dispatch(fetchWeatherData(city));
+    }
+  }, [city, dispatch]);
 
   const handleSearch = () => {
-    if (inputValue.trim() === "") {
-      setError("Please enter a valid city name.");
-      return;
-    }
-    setCity(inputValue);
+  
+    dispatch(setCity(inputValue));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +38,7 @@ function App() {
   };
 
   return (
-    <div className=" min-h-screen bg-gradient-to-r from-purple-200 via-purple-500 to-cyan-300 text-white flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-r from-purple-200 via-purple-500 to-cyan-300 text-white flex flex-col items-center justify-center p-4">
       <div className="fixed top-5 mb-4 w-full mx-5 max-w-md">
         <input
           type="text"
@@ -91,21 +66,22 @@ function App() {
         </div>
       )}
       {error && (
-        <p className="text-red-500 text-center text-lg font-medium">{error}</p>
+        <p className="text-red-700 text-center text-lg font-medium">{error}</p>
       )}
       {weather && !loading && (
         <div className="text-black text-center 2xl:mt-20 xl:mt-32 lg:mt-32 md:mt-32 sm:mt-32 2sm:mt-32 p-6 rounded-lg transform transition duration-500 hover:scale-105">
-           <img
+          <img
             src={icons[weather.weather[0]?.main as WeatherCondition]?.iconImg}
             alt={weather.weather[0]?.description}
             className="mx-auto mt-10 w-24 h-24 object-contain"
           />
-          <h2 className="text-4xl font-extrabold mb-2 text-purple-900">{weather.name}</h2>
+          <h2 className="text-4xl font-extrabold mb-2 text-purple-900">
+            {weather.name}
+          </h2>
           <p className="text-2xl mb-2 text-blue-900">{weather.main?.temp}°C</p>
           <p className="text-xl mb-4 capitalize text-gray-800">
             {weather.weather[0]?.description}
           </p>
-         
         </div>
       )}
       {forecast.length > 0 && (
@@ -119,8 +95,7 @@ function App() {
                 <p className="text-lg font-semibold">
                   {new Date(day.dt_txt).toLocaleDateString("en-US", {
                     weekday: "long",
-                  })
-                  }
+                  })}
                 </p>
                 <p className="text-lg">Temperature: {day.main?.temp}°C</p>
                 <p className="text-lg capitalize">
