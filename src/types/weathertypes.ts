@@ -1,7 +1,7 @@
 export interface weatherprops {
   name: string;
   main: {
-    temp: number ;
+    temp: number;
   };
   weather: {
     main: string;
@@ -16,7 +16,7 @@ export type iconprops = {
 export type ForecastProps = {
   dt_txt: string;
   main: {
-    temp: number ;
+    temp: number;
   };
   weather: {
     main: string;
