@@ -1,54 +1,33 @@
-# React + TypeScript + Vite
+# React Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🌦️ Overview
 
-Currently, two official plugins are available:
+React Weather App is a sleek and modern weather application built with React. It allows users to search for current weather conditions and view a 5-day forecast for any city worldwide. The app features dynamic background changes, responsive design, and a unique style powered by Tailwind CSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Real-time Weather Updates**: Get accurate weather data for your location or any city.
+- **5-Day Forecast**: Plan ahead with detailed weather predictions.
+- **Dynamic Backgrounds**: Enjoy visually appealing background gradients that change based on weather conditions.
+- **Keyboard Shortcuts**: Use the Enter key for quick searches.
+- **Error Handling**: Displays user-friendly messages for invalid inputs.
+- **Responsive Design**: Optimized for all devices, from mobile to desktop.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Technologies Used
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React**: Frontend framework for building the user interface.
+- **Tailwind CSS**: For styling and creating a unique, responsive design.
+- **TanStack Query**: For efficient state management and API data fetching.
+- **OpenWeather API**: Provides weather data and forecasts.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+---
+
+## 📸 Screenshots
+
+![App Screenshot](https://github.com/user-attachments/assets/0134cb9c-c014-4dde-b5e4-27f53340af17)
+
+Enjoy using the React Weather App! 🌤️
